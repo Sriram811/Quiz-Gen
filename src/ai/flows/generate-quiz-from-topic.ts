@@ -12,6 +12,7 @@ import {z} from 'genkit';
 
 const GenerateQuizInputSchema = z.object({
   topic: z.string().describe('The topic for which to generate multiple-choice questions.'),
+  numQuestions: z.number().default(5).describe('The number of questions to generate.'),
 });
 export type GenerateQuizInput = z.infer<typeof GenerateQuizInputSchema>;
 
@@ -34,38 +35,9 @@ const prompt = ai.definePrompt({
   name: 'generateQuizPrompt',
   input: {schema: GenerateQuizInputSchema},
   output: {schema: GenerateQuizOutputSchema},
-  prompt: `You are a quiz generator. Generate 5 multiple-choice questions about the topic: {{{topic}}}. For each question, provide 4 answer options, and indicate the correct answer.
+  prompt: `You are a quiz generator. Generate {{{numQuestions}}} multiple-choice questions about the topic: {{{topic}}}. For each question, provide 4 answer options, and indicate the correct answer.
 
-Output the questions in JSON format:
-{
-  "questions": [
-    {
-      "question": "Question 1",
-      "options": ["Option A", "Option B", "Option C", "Option D"],
-      "correctAnswer": "Option A"
-    },
-    {
-      "question": "Question 2",
-      "options": ["Option A", "Option B", "Option C", "Option D"],
-      "correctAnswer": "Option B"
-    },
-       {
-      "question": "Question 3",
-      "options": ["Option A", "Option B", "Option C", "Option D"],
-      "correctAnswer": "Option C"
-    },
-       {
-      "question": "Question 4",
-      "options": ["Option A", "Option B", "Option C", "Option D"],
-      "correctAnswer": "Option D"
-    },
-       {
-      "question": "Question 5",
-      "options": ["Option A", "Option B", "Option C", "Option D"],
-      "correctAnswer": "Option A"
-    }
-  ]
-}`,
+Output the questions in JSON format.`,
 });
 
 const generateQuizFlow = ai.defineFlow(

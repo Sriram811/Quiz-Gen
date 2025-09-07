@@ -14,10 +14,11 @@ const formSchema = z.object({
   topic: z.string().min(2, {
     message: 'Topic must be at least 2 characters.',
   }),
+  numQuestions: z.coerce.number().min(1, 'Must have at least 1 question.').max(10, 'Cannot exceed 10 questions.'),
 });
 
 interface TopicQuizFormProps {
-  onGenerate: (topic: string) => void;
+  onGenerate: (topic: string, numQuestions: number) => void;
   isLoading: boolean;
 }
 
@@ -26,11 +27,12 @@ export function TopicQuizForm({ onGenerate, isLoading }: TopicQuizFormProps) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       topic: '',
+      numQuestions: 5,
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    onGenerate(values.topic);
+    onGenerate(values.topic, values.numQuestions);
   }
 
   return (
@@ -53,6 +55,19 @@ export function TopicQuizForm({ onGenerate, isLoading }: TopicQuizFormProps) {
                   <FormLabel>Quiz Topic</FormLabel>
                   <FormControl>
                     <Input placeholder="e.g., The Roman Empire" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="numQuestions"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Number of Questions</FormLabel>
+                  <FormControl>
+                    <Input type="number" min="1" max="10" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

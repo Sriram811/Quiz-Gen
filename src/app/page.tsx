@@ -29,11 +29,11 @@ export default function Home() {
     setQuiz(null);
   };
 
-  const handleGenerateFromTopic = async (topic: string) => {
+  const handleGenerateFromTopic = async (topic: string, numQuestions: number) => {
     setIsLoading(true);
     setQuiz(null);
     try {
-      const result = await generateQuiz({ topic });
+      const result = await generateQuiz({ topic, numQuestions });
       if (!result.questions || result.questions.length === 0) {
         throw new Error("The AI didn't return any questions. Please try a different topic.");
       }
@@ -45,12 +45,15 @@ export default function Home() {
     }
   };
 
-  const handleGenerateFromFile = async (fileDataUri: string) => {
+  const handleGenerateFromFile = async (fileDataUri: string, numQuestions: number) => {
     setIsLoading(true);
     setQuiz(null);
     try {
-      const result = await generateQuizFromFile({ fileDataUri });
+      const result = await generateQuizFromFile({ fileDataUri, numQuestions });
       const parsedQuiz = parseQuizText(result.quiz);
+      if (parsedQuiz.length === 0 && result.quiz.trim().length > 0) {
+        throw new Error("Could not parse any questions from the provided text.");
+      }
       setQuiz(parsedQuiz);
     } catch (error) {
       handleGenerationError(error);

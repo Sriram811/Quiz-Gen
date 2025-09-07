@@ -28,16 +28,20 @@ const formSchema = z.object({
             (files) => files?.[0] && ACCEPTED_FILE_TYPES.includes(files[0].type),
             '.txt, .pdf, .docx, and .pptx files are supported.'
           ),
+  numQuestions: z.coerce.number().min(1, 'Must have at least 1 question.').max(10, 'Cannot exceed 10 questions.'),
 });
 
 interface FileQuizFormProps {
-  onGenerate: (fileDataUri: string) => void;
+  onGenerate: (fileDataUri: string, numQuestions: number) => void;
   isLoading: boolean;
 }
 
 export function FileQuizForm({ onGenerate, isLoading }: FileQuizFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      numQuestions: 5,
+    },
   });
 
   const fileRef = form.register('file');
@@ -48,7 +52,7 @@ export function FileQuizForm({ onGenerate, isLoading }: FileQuizFormProps) {
       const reader = new FileReader();
       reader.onload = (e) => {
         const content = e.target?.result as string;
-        onGenerate(content);
+        onGenerate(content, values.numQuestions);
       };
       reader.readAsDataURL(file);
     }
@@ -74,6 +78,19 @@ export function FileQuizForm({ onGenerate, isLoading }: FileQuizFormProps) {
                   <FormLabel>File</FormLabel>
                   <FormControl>
                     <Input type="file" accept={ACCEPTED_FILE_TYPES.join(',')} {...fileRef} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="numQuestions"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Number of Questions</FormLabel>
+                  <FormControl>
+                    <Input type="number" min="1" max="10" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
