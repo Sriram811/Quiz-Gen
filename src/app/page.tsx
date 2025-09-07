@@ -90,7 +90,7 @@ export default function Home() {
     }
 
     return (
-      <div className="flex flex-col items-center justify-center h-full text-center p-8">
+      <div className="flex flex-col items-center justify-center h-full text-center p-4 md:p-8">
         <div className="max-w-md">
           <Image src="https://picsum.photos/600/400" width={600} height={400} alt="Quiz background" className="mb-8 rounded-lg shadow-lg" data-ai-hint="knowledge books"/>
           <h2 className="text-2xl font-bold mb-2">Welcome to QuizWhiz!</h2>
@@ -126,7 +126,7 @@ export default function Home() {
             </SidebarContent>
           </Sidebar>
           <SidebarInset>
-            <main className="flex-grow container px-4 pb-12">
+            <main className="flex-grow container px-4 md:px-8 lg:px-12 pb-12">
               {renderContent()}
             </main>
           </SidebarInset>
