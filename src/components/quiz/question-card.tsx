@@ -65,7 +65,7 @@ export function QuestionCard({ question, questionNumber, totalQuestions, onAnswe
               </Label>
             ))}
           </RadioGroup>
-          <Button type="submit" disabled={isSubmitted || !selectedOption} className="mt-6 w-full">
+          <Button type="submit" disabled={isSubmitted || !selectedOption} className="mt-6 w-full font-bold">
             Submit Answer
           </Button>
         </form>

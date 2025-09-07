@@ -56,11 +56,18 @@ export function QuizDisplay({ quiz, onRestart }: QuizDisplayProps) {
       <div className="flex justify-center items-center gap-4">
         {isAnswered && (
           <Button onClick={handleNextQuestion} className="animate-in fade-in">
-            {currentQuestionIndex === quiz.length - 1 ? 'Finish Quiz' : 'Next Question'}
+            {currentQuestionIndex === quiz.length - 1
+              ? "Finish Quiz"
+              : "Next Question"}
           </Button>
         )}
-        <Button onClick={handleAbort} variant="ghost" size="sm">
-            End Quiz
+        <Button
+          onClick={handleAbort}
+          variant="ghost"
+          size="sm"
+          className="font-bold"
+        >
+          End Quiz
         </Button>
       </div>
     </div>

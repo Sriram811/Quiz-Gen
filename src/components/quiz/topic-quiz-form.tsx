@@ -45,9 +45,13 @@ export function TopicQuizForm({ onGenerate, isLoading }: TopicQuizFormProps) {
           name="topic"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Quiz Topic</FormLabel>
+              <FormLabel className="font-bold">Quiz Topic</FormLabel>
               <FormControl>
-                <Input placeholder="e.g., The Roman Empire" {...field} />
+                <Input
+                  className="font-bold"
+                  placeholder="e.g., Java, Python ,JavaScript etc..,"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -58,7 +62,7 @@ export function TopicQuizForm({ onGenerate, isLoading }: TopicQuizFormProps) {
           name="numQuestions"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Number of Questions</FormLabel>
+              <FormLabel className="font-bold">Number of Questions</FormLabel>
               <FormControl>
                 <Input type="number" min="1" {...field} />
               </FormControl>
@@ -71,14 +75,14 @@ export function TopicQuizForm({ onGenerate, isLoading }: TopicQuizFormProps) {
           name="difficulty"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Difficulty</FormLabel>
+              <FormLabel className="font-bold">Difficulty</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select a difficulty" />
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent>
+                <SelectContent className="font-bold">
                   <SelectItem value="Easy">Easy</SelectItem>
                   <SelectItem value="Medium">Medium</SelectItem>
                   <SelectItem value="Hard">Hard</SelectItem>
@@ -95,7 +99,7 @@ export function TopicQuizForm({ onGenerate, isLoading }: TopicQuizFormProps) {
               Generating...
             </>
           ) : (
-            'Generate Quiz'
+            "Generate Quiz"
           )}
         </Button>
       </form>

@@ -73,7 +73,7 @@ export default function Home() {
         <div className="flex flex-col items-center justify-center text-center p-8">
           <Spinner className="w-12 h-12 animate-spin text-primary mb-4" />
           <h2 className="text-2xl font-bold mb-2">Generating Your Quiz</h2>
-          <p className="text-muted-foreground">The AI is working its magic...</p>
+          <p className="text-muted-foreground">All the Best !!!</p>
         </div>
       );
     }
@@ -83,21 +83,33 @@ export default function Home() {
 
     return (
       <Card className="w-full max-w-lg mx-auto">
-        <CardHeader>
-          <CardTitle>Create a New Quiz</CardTitle>
-          <CardDescription>Generate a quiz from a topic or a file.</CardDescription>
+        <CardHeader className="font-bold">
+          <CardTitle className="font-bold">Create a New Quiz</CardTitle>
+          <CardDescription>
+            Generate a quiz from a topic or a file.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="topic" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="topic">From Topic</TabsTrigger>
-              <TabsTrigger value="file">From File</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2 font-bold">
+              <TabsTrigger value="topic" className="font-bold">
+                From Topic
+              </TabsTrigger>
+              <TabsTrigger value="file" className="font-bold">
+                From File
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="topic">
-              <TopicQuizForm onGenerate={handleGenerateFromTopic} isLoading={isLoading} />
+              <TopicQuizForm
+                onGenerate={handleGenerateFromTopic}
+                isLoading={isLoading}
+              />
             </TabsContent>
             <TabsContent value="file">
-              <FileQuizForm onGenerate={handleGenerateFromFile} isLoading={isLoading} />
+              <FileQuizForm
+                onGenerate={handleGenerateFromFile}
+                isLoading={isLoading}
+              />
             </TabsContent>
           </Tabs>
         </CardContent>
@@ -111,8 +123,8 @@ export default function Home() {
       <main className="flex-grow flex items-center justify-center p-4">
         {renderContent()}
       </main>
-      <footer className="text-center p-4 text-sm text-muted-foreground">
-        Powered by Genkit
+      <footer className="text-center p-4 text-sm text-muted-foreground font-bold">
+        Let's Quiz and Learn! 🚀
       </footer>
     </div>
   );

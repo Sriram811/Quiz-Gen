@@ -23,7 +23,7 @@ export function QuizResults({ score, totalQuestions, onRestart }: QuizResultsPro
       <Card className="w-full max-w-lg mx-auto animate-in fade-in zoom-in-95">
         <CardHeader className="items-center">
           <Award className="w-16 h-16 text-primary" />
-          <CardTitle className="text-2xl mt-4">Quiz Completed!</CardTitle>
+          <CardTitle className="text-2xl mt-4 font-bold">Quiz Completed!</CardTitle>
           <CardDescription>Here's how you did.</CardDescription>
         </CardHeader>
         <CardContent className="text-center space-y-6">
