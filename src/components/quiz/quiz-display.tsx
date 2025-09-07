@@ -47,6 +47,7 @@ export function QuizDisplay({ quiz, onRestart }: QuizDisplayProps) {
         <Progress value={progress} className="w-full h-2" />
       </div>
       <QuestionCard
+        key={currentQuestionIndex}
         question={quiz[currentQuestionIndex]}
         questionNumber={currentQuestionIndex + 1}
         totalQuestions={quiz.length}
