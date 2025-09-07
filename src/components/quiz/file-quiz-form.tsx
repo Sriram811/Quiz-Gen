@@ -9,6 +9,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { FileText } from 'lucide-react';
 import { Spinner } from '@/components/icons';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import type { Difficulty } from '@/app/page';
 
 const ACCEPTED_FILE_TYPES = [
   'text/plain',
@@ -29,10 +31,11 @@ const formSchema = z.object({
             '.txt, .pdf, .docx, and .pptx files are supported.'
           ),
   numQuestions: z.coerce.number().min(1, 'Must have at least 1 question.').max(10, 'Cannot exceed 10 questions.'),
+  difficulty: z.enum(['Easy', 'Medium', 'Hard']),
 });
 
 interface FileQuizFormProps {
-  onGenerate: (fileDataUri: string, numQuestions: number) => void;
+  onGenerate: (fileDataUri: string, numQuestions: number, difficulty: Difficulty) => void;
   isLoading: boolean;
 }
 
@@ -41,6 +44,7 @@ export function FileQuizForm({ onGenerate, isLoading }: FileQuizFormProps) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       numQuestions: 5,
+      difficulty: 'Medium',
     },
   });
 
@@ -52,7 +56,7 @@ export function FileQuizForm({ onGenerate, isLoading }: FileQuizFormProps) {
       const reader = new FileReader();
       reader.onload = (e) => {
         const content = e.target?.result as string;
-        onGenerate(content, values.numQuestions);
+        onGenerate(content, values.numQuestions, values.difficulty as Difficulty);
       };
       reader.readAsDataURL(file);
     }
@@ -92,6 +96,28 @@ export function FileQuizForm({ onGenerate, isLoading }: FileQuizFormProps) {
                   <FormControl>
                     <Input type="number" min="1" max="10" {...field} />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="difficulty"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Difficulty</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a difficulty" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="Easy">Easy</SelectItem>
+                      <SelectItem value="Medium">Medium</SelectItem>
+                      <SelectItem value="Hard">Hard</SelectItem>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}

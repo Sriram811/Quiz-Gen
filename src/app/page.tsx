@@ -14,6 +14,8 @@ import { parseQuizText } from '@/lib/quiz-parser';
 import { Spinner } from '@/components/icons';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
+export type Difficulty = 'Easy' | 'Medium' | 'Hard';
+
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [quiz, setQuiz] = useState<QuizQuestion[] | null>(null);
@@ -29,11 +31,11 @@ export default function Home() {
     setQuiz(null);
   };
 
-  const handleGenerateFromTopic = async (topic: string, numQuestions: number) => {
+  const handleGenerateFromTopic = async (topic: string, numQuestions: number, difficulty: Difficulty) => {
     setIsLoading(true);
     setQuiz(null);
     try {
-      const result = await generateQuiz({ topic, numQuestions });
+      const result = await generateQuiz({ topic, numQuestions, difficulty });
       if (!result.questions || result.questions.length === 0) {
         throw new Error("The AI didn't return any questions. Please try a different topic.");
       }
@@ -45,11 +47,11 @@ export default function Home() {
     }
   };
 
-  const handleGenerateFromFile = async (fileDataUri: string, numQuestions: number) => {
+  const handleGenerateFromFile = async (fileDataUri: string, numQuestions: number, difficulty: Difficulty) => {
     setIsLoading(true);
     setQuiz(null);
     try {
-      const result = await generateQuizFromFile({ fileDataUri, numQuestions });
+      const result = await generateQuizFromFile({ fileDataUri, numQuestions, difficulty });
       const parsedQuiz = parseQuizText(result.quiz);
       if (parsedQuiz.length === 0 && result.quiz.trim().length > 0) {
         throw new Error("Could not parse any questions from the provided text.");

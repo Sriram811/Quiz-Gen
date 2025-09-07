@@ -19,6 +19,7 @@ const GenerateQuizFromFileInputSchema = z.object({
     ),
   topic: z.string().optional().describe('The topic of the quiz, if known.'),
   numQuestions: z.number().default(5).describe('The number of questions to generate.'),
+  difficulty: z.enum(['Easy', 'Medium', 'Hard']).default('Medium').describe('The difficulty level of the quiz.'),
 });
 export type GenerateQuizFromFileInput = z.infer<typeof GenerateQuizFromFileInputSchema>;
 
@@ -41,7 +42,7 @@ File Content: {{media url=fileDataUri}}
 
 Topic (if available): {{{topic}}}
 
-Generate {{{numQuestions}}} questions.
+Generate {{{numQuestions}}} questions with a difficulty level of {{{difficulty}}}.
 Each question must have 4 answer choices, labeled A), B), C), and D).
 After the options for each question, you MUST include a line that says "Correct Answer: " followed by the letter of the correct answer.
 Separate each question block (question, options, and answer) with a blank line. Do not use markdown or any other formatting.
