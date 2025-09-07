@@ -10,6 +10,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { FileText } from 'lucide-react';
 import { Spinner } from '@/components/icons';
 
+const ACCEPTED_FILE_TYPES = [
+  'text/plain',
+  'application/pdf',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // .docx
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation', // .pptx
+];
+
 const formSchema = z.object({
   file:
     typeof window === 'undefined'
@@ -17,11 +24,14 @@ const formSchema = z.object({
       : z
           .instanceof(FileList)
           .refine((files) => files?.length === 1, 'File is required.')
-          .refine((files) => files?.[0]?.type === 'text/plain', 'Only .txt files are allowed.'),
+          .refine(
+            (files) => files?.[0] && ACCEPTED_FILE_TYPES.includes(files[0].type),
+            '.txt, .pdf, .docx, and .pptx files are supported.'
+          ),
 });
 
 interface FileQuizFormProps {
-  onGenerate: (fileContent: string) => void;
+  onGenerate: (fileDataUri: string) => void;
   isLoading: boolean;
 }
 
@@ -40,7 +50,7 @@ export function FileQuizForm({ onGenerate, isLoading }: FileQuizFormProps) {
         const content = e.target?.result as string;
         onGenerate(content);
       };
-      reader.readAsText(file);
+      reader.readAsDataURL(file);
     }
   }
 
@@ -51,7 +61,7 @@ export function FileQuizForm({ onGenerate, isLoading }: FileQuizFormProps) {
           <FileText className="w-6 h-6" />
           Generate from File
         </CardTitle>
-        <CardDescription>Upload a .txt file and we'll create a quiz from its content.</CardDescription>
+        <CardDescription>Upload a .txt, .pdf, .docx, or .pptx file to create a quiz.</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -61,9 +71,9 @@ export function FileQuizForm({ onGenerate, isLoading }: FileQuizFormProps) {
               name="file"
               render={() => (
                 <FormItem>
-                  <FormLabel>Text File</FormLabel>
+                  <FormLabel>File</FormLabel>
                   <FormControl>
-                    <Input type="file" accept=".txt" {...fileRef} />
+                    <Input type="file" accept={ACCEPTED_FILE_TYPES.join(',')} {...fileRef} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

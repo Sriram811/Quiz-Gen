@@ -45,11 +45,11 @@ export default function Home() {
     }
   };
 
-  const handleGenerateFromFile = async (fileContent: string) => {
+  const handleGenerateFromFile = async (fileDataUri: string) => {
     setIsLoading(true);
     setQuiz(null);
     try {
-      const result = await generateQuizFromFile({ fileContent });
+      const result = await generateQuizFromFile({ fileDataUri });
       const parsedQuiz = parseQuizText(result.quiz);
       setQuiz(parsedQuiz);
     } catch (error) {
