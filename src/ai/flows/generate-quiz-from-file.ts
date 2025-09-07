@@ -30,7 +30,25 @@ const generateQuizFromFilePrompt = ai.definePrompt({
   name: 'generateQuizFromFilePrompt',
   input: {schema: GenerateQuizFromFileInputSchema},
   output: {schema: GenerateQuizFromFileOutputSchema},
-  prompt: `You are a quiz generator. Generate a multiple-choice quiz based on the content of the following file.\n\nFile Content: {{{fileContent}}}\n\nTopic (if available): {{{topic}}}\n\nQuiz should include at least 5 questions, each with 4 answer choices, and indicate the correct answer.\nThe output should be plain text and readable by humans.\n`,
+  prompt: `You are a quiz generator. Generate a multiple-choice quiz based on the content of the following file.
+
+File Content: {{{fileContent}}}
+
+Topic (if available): {{{topic}}}
+
+Generate at least 5 questions.
+Each question must have 4 answer choices, labeled A), B), C), and D).
+After the options for each question, you MUST include a line that says "Correct Answer: " followed by the letter of the correct answer.
+Separate each question block (question, options, and answer) with a blank line.
+
+Example of a single question block:
+1. What is the capital of France?
+A) London
+B) Berlin
+C) Paris
+D) Madrid
+Correct Answer: C
+`,
 });
 
 const generateQuizFromFileFlow = ai.defineFlow(
