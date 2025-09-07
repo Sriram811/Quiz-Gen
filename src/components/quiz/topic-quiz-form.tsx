@@ -1,0 +1,76 @@
+'use client';
+
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { BookOpen } from 'lucide-react';
+import { Spinner } from '@/components/icons';
+
+const formSchema = z.object({
+  topic: z.string().min(2, {
+    message: 'Topic must be at least 2 characters.',
+  }),
+});
+
+interface TopicQuizFormProps {
+  onGenerate: (topic: string) => void;
+  isLoading: boolean;
+}
+
+export function TopicQuizForm({ onGenerate, isLoading }: TopicQuizFormProps) {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      topic: '',
+    },
+  });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    onGenerate(values.topic);
+  }
+
+  return (
+    <Card className="w-full max-w-lg mx-auto">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <BookOpen className="w-6 h-6" />
+          Generate from Topic
+        </CardTitle>
+        <CardDescription>Enter any topic and we'll create a quiz for you.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <FormField
+              control={form.control}
+              name="topic"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Quiz Topic</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., The Roman Empire" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit" disabled={isLoading} className="w-full">
+              {isLoading ? (
+                <>
+                  <Spinner className="mr-2 h-4 w-4 animate-spin" />
+                  Generating...
+                </>
+              ) : (
+                'Generate Quiz'
+              )}
+            </Button>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
+  );
+}
