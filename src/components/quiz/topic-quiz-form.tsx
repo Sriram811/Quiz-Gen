@@ -16,7 +16,7 @@ const formSchema = z.object({
   topic: z.string().min(2, {
     message: 'Topic must be at least 2 characters.',
   }),
-  numQuestions: z.coerce.number().min(1, 'Must have at least 1 question.').max(10, 'Cannot exceed 10 questions.'),
+  numQuestions: z.coerce.number().min(1, 'Must have at least 1 question.'),
   difficulty: z.enum(['Easy', 'Medium', 'Hard']),
 });
 
@@ -71,7 +71,7 @@ export function TopicQuizForm({ onGenerate, isLoading }: TopicQuizFormProps) {
                 <FormItem>
                   <FormLabel>Number of Questions</FormLabel>
                   <FormControl>
-                    <Input type="number" min="1" max="10" {...field} />
+                    <Input type="number" min="1" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
