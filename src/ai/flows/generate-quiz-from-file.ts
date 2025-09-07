@@ -24,7 +24,7 @@ const GenerateQuizFromFileInputSchema = z.object({
 export type GenerateQuizFromFileInput = z.infer<typeof GenerateQuizFromFileInputSchema>;
 
 const GenerateQuizFromFileOutputSchema = z.object({
-  quiz: z.string().describe('The generated quiz questions in plain text format.'),
+  quiz: z.string().describe('The generated quiz as a JSON string. The JSON should be an object with a "questions" array, where each question has "question", "options", and "correctAnswer" properties.'),
 });
 export type GenerateQuizFromFileOutput = z.infer<typeof GenerateQuizFromFileOutputSchema>;
 
@@ -43,17 +43,15 @@ File Content: {{media url=fileDataUri}}
 Topic (if available): {{{topic}}}
 
 Generate {{{numQuestions}}} questions with a difficulty level of {{{difficulty}}}.
-Each question must have 4 answer choices, labeled A), B), C), and D).
-After the options for each question, you MUST include a line that says "Correct Answer: " followed by the letter of the correct answer.
-Separate each question block (question, options, and answer) with a blank line. Do not use markdown or any other formatting.
+Each question must have 4 answer choices.
 
-Example of a single question block:
-1. What is the capital of France?
-A) London
-B) Berlin
-C) Paris
-D) Madrid
-Correct Answer: C
+IMPORTANT: You must output a single, valid JSON object containing a "questions" array.
+Each object in the "questions" array must have the following properties:
+- "question": a string containing the question text.
+- "options": an array of 4 strings representing the answer choices.
+- "correctAnswer": a string containing the correct answer, which must exactly match one of the strings in the "options" array.
+
+Do not include any other text, markdown, or formatting outside of the JSON object.
 `,
 });
 

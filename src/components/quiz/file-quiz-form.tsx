@@ -63,13 +63,13 @@ export function FileQuizForm({ onGenerate, isLoading }: FileQuizFormProps) {
   }
 
   return (
-    <Card className="w-full max-w-lg mx-auto">
+    <Card className="w-full max-w-lg mx-auto bg-transparent border-0 shadow-none">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <FileText className="w-6 h-6" />
           Generate from File
         </CardTitle>
-        <CardDescription>Upload a .txt, .pdf, .docx, or .pptx file to create a quiz.</CardDescription>
+        <CardDescription>Upload a file to create a quiz from its contents.</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>

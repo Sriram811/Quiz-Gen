@@ -40,7 +40,7 @@ export function TopicQuizForm({ onGenerate, isLoading }: TopicQuizFormProps) {
   }
 
   return (
-    <Card className="w-full max-w-lg mx-auto">
+    <Card className="w-full max-w-lg mx-auto bg-transparent border-0 shadow-none">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <BookOpen className="w-6 h-6" />
